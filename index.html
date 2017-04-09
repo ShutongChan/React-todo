@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>React App - Planti</title>
+	<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.0/react.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.0/react-dom.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/index.css">
+</head>
+<body>
+<div id="app"></div>
+
+<script src="index.js"></script>
+<script type="text/babel">
+	
+	var TestClickComponent = React.createClass({
+		handleClick:function(event){
+			var tipE = ReactDOM.findDOMNode(this.refs.tip);
+			if (tipE.style.display == 'none') {
+				//console.log(tipE.display);
+				tipE.style.display = 'inline';
+			} else {
+				//console.log(tipE.display);
+				tipE.style.display = 'none';
+			}
+
+			event.stopPropagation();
+			event.preventDefault();
+		},
+		render:function(){
+			return(
+				<div>
+					<button onClick={this.handleClick}>显示|隐藏</button><span ref="tip">测试显示</span>
+				</div>
+				);
+		}
+	});
+
+	var TestInputComponent = React.createClass({
+		getInitialState: function() {
+			return{
+				inputContent:''
+			}
+		},
+		changeHandler: function(event){
+			this.setState({
+				inputContent: event.target.value
+			});
+			event.stopPropagation();
+			event.preventDefault();
+		},
+		render:function(){
+			return(
+				<div>
+					<input type="text" onChange={this.changeHandler}/><span>{this.state.inputContent}</span>
+				</div>
+				);
+		}
+	});
+
+	ReactDOM.render(
+		<div>
+			<TestClickComponent/>
+			<br/><br/><br/>
+			<TestInputComponent/>
+		</div>,
+		document.getElementById('app'));
+
+      // ReactDOM.render(
+      //   <h1 className="test">Hello, world!</h1>,
+      //   document.getElementById('app')
+      // );
+    </script>
+</body>
+</html>
