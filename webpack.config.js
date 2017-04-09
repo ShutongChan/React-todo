@@ -1,5 +1,5 @@
 var config = {
-	entry: './main.js',
+	entry: ['whatwg-fetch', './main.js'],
 	output: {
 		path: __dirname + "/build",
 		filename: 'index.js',
@@ -16,7 +16,16 @@ var config = {
 			query: {
 				presets: ['es2015', 'react']
 			}
+		}, {
+			test: /\.css$/,
+			loader: 'style-loader!css-loader',
+			exclude: '/node_modules/'
 		}]
+	},
+	resolve: {
+		extensions: ['.js', '.css', '.jsx']
 	}
+
+
 }
 module.exports = config;

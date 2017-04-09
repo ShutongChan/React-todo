@@ -16,7 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "react": "^15.5.3",
-    "react-dom": "^15.5.3"
+    "react-dom": "^15.5.3",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "css-loader": "^0.28.0",
