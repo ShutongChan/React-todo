@@ -94,12 +94,14 @@ var ToDo = React.createClass({
 		},
 		//点击修改按钮后改变state
 		handleChange:function(e){
+
 			var index = e.target.getAttribute('data-index');
 			var msg = this.props.todo[index];
 			this.setState({
 				changenum:index,
 				changevalue:msg
 			});
+
 		},
 		handleText:function(e){
 			this.setState({
@@ -134,9 +136,9 @@ var ToDo = React.createClass({
 							//如果有点击修改则在此处渲染成type框
 							if (this.state.changenum == i) {
 								return(
-									<li key={i}>
-										<input type="text" ref="inputnew" value={this.state.changevalue} onChange={this.handleText} />
-										<button onClick={this.handleSave}>确定</button>
+									<li key={i} className="editActive" >
+										<input type="text" ref="inputnew" value={this.state.changevalue} autoFocus="autofocus" onChange={this.handleText} />
+										<img src="public/images/done.png" onClick={this.handleSave} />
 									</li>
 									);
 							}

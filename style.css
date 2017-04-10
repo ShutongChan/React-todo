@@ -49,6 +49,7 @@ li{
 	padding:20px;
 	max-width:800px;
 	background-color: #2d2d2d; 
+	box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
 }
 #todolist li{
 	margin-top: 15px;
@@ -68,7 +69,14 @@ li{
 	right: 10px;
 	margin-right: 10px;
 	vertical-align: middle;
+	cursor: pointer;
 }
 #todolist li > input{
 	outline:none;
+	border: none;
+	background-color: #2d2d2d;
+
+}
+#todolist li.editActive{
+	border:1px solid #61dafb;
 }
