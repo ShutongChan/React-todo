@@ -24,6 +24,7 @@ li{
 	text-align: center;
 	color: #ffffff;
 	padding: 25px;
+	position: relative;
 
 }
 .banner h1{
@@ -38,9 +39,12 @@ li{
 }
 .banner > img{
 	width: 40px;
-	float: left;
-	top: 50px;
-	left: 100px;
+	height: 40px;
+	position: absolute;
+	top: 50%;
+	left: 20px;
+	
+	margin-top: -20px;
 }
 .toDoContainer{
 	margin:50px auto 50px auto;
