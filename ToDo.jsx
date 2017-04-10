@@ -6,7 +6,10 @@ var ToDo = React.createClass({
 	getInitialState:function() {
 		return{
 			//state用来控制todolist
-			todolist:[]
+			todolist:["Learn React",
+			"Write a ToDo List",
+			"Debugger",
+			"Keep learning & waiting"]
 		};	
 	},
 	handleChange:function(rows){
