@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import FontAwesome from 'react-fontawesome'
 
 var ToDo = React.createClass({
 	//父组件state存储数据，react的思想是建议将数据存储放在state中，通过props传给子组件
@@ -21,7 +22,8 @@ var ToDo = React.createClass({
 	render:function(){
 		return(
 			//添加子组件
-			<div>
+			<div className="toDoContainer">
+
 				<TypeNew todo={this.state.todolist} add={this.handleChange} />
 				<ListToDo todo={this.state.todolist} change={this.handleChange} />
 			</div>
@@ -51,10 +53,18 @@ var ToDo = React.createClass({
 		},
 		render:function(){
 			return(
-				<form>
-					<input type="text" ref="inputnew" placeholder="typing a newthing to do" autoComplete="off" />
-					<input type="button" value="提交" onClick={this.handleAdd} />
-				</form>
+				<div className="row">
+					<form>
+						<div className="col-lg-12">
+							<div className="input-group">
+								<input type="text" className="form-control" ref="inputnew" placeholder="typing a newthing to do" autoComplete="off" />
+								<span className="input-group-btn">
+									<input type="button" className="btn btn-default" value="提交" onClick={this.handleAdd} />																	
+								</span>
+							</div>
+						</div>
+					</form>
+				</div>
 				);
 		}
 	});
@@ -124,7 +134,7 @@ var ToDo = React.createClass({
 							//如果有点击修改则在此处渲染成type框
 							if (this.state.changenum == i) {
 								return(
-									<li>
+									<li key={i}>
 										<input type="text" ref="inputnew" value={this.state.changevalue} onChange={this.handleText} />
 										<button onClick={this.handleSave}>确定</button>
 									</li>
@@ -132,10 +142,12 @@ var ToDo = React.createClass({
 							}
 							else{
 								return(
-									<li>
+									<li key={i}>
 										<span>{item}</span>
-										<button onClick={this.handleDel} data-index={i}>删除</button>
-										<button onClick={this.handleChange} data-index={i}>修改</button>
+										<img src="public/images/edit.png" onClick={this.handleChange} data-index={i} />
+										<img src="public/images/delete.png" onClick={this.handleDel} data-index={i} />
+									
+										
 									</li>
 								);
 							}

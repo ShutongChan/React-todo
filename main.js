@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import ToDo from './ToDo.jsx';
+import Banner from './Banner.jsx';
 import 'whatwg-fetch';
 require("./style.css");
 
@@ -20,10 +21,10 @@ var TestClickComponent = React.createClass({
 		event.preventDefault();
 	},
 	render: function() {
-		return (
+		return(
 			<div>
-					<button onClick={this.handleClick}>显示|隐藏</button><span ref="tip">测试显示</span>
-				</div>
+				<button onClick={this.handleClick}>显示|隐藏</button><span ref="tip">测试显示</span>
+			</div>
 		);
 	}
 });
@@ -85,7 +86,7 @@ var MyComponent = React.createClass({
 });
 
 var MyTitle = React.createClass({
-	proptypes: {
+	propTypes: {
 		title: React.PropTypes.string.isRequired
 	},
 	render: function() {
@@ -150,29 +151,31 @@ var arr = [
 var data = 123;
 
 ReactDOM.render(
+	 <div>
+	{/* 	<TestClickComponent/>
+		<br/><br/><br/>
+		<TestInputComponent/>
+		{
+			names.map(function(name){
+			return <div>Hello,{name}!</div>
+			})
+		}
+		<div>{arr}</div>
+		<HelloMessage name="Planti" />
+		<NodeList>
+			<span>hello</span>
+			<span>world</span>
+		</NodeList>
 
-	// <TestClickComponent/>
-	// <br/><br/><br/>
-	// <TestInputComponent/>
-	// {
-	// 	names.map(function(name){
-	// 	return <div>Hello,{name}!</div>
-	// 	})
-	// }
-	// <div>{arr}</div>
-	// <HelloMessage name="Planti" />
-	// <NodeList>
-	// 	<span>hello</span>
-	// 	<span>world</span>
-	// </NodeList>
-
-	// <MyComponent />
-	// <MyTitle title={data} />
-	// <LikeButton />
-	// <Hello name="world" />
-
-	<ToDo />
-	//<App source="https://api.github.com/users/octocat/gists" />
+		<MyComponent />
+		 <MyTitle title={data} />
+		<LikeButton />
+		 <Hello name="world" />
+    <App source="https://api.github.com/users/octocat/gists" />*/}
+    
+    <Banner />
+    <ToDo />
+	</div>
 	,
 	document.getElementById('app'));
 

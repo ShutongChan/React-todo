@@ -7,16 +7,22 @@
     "start": "webpack-dev-server --hot",
     "webpack": "./node_modules/.bin/webpack",
     "watch": "./node_modules/.bin/webpack -w",
-    "clean": "rm -r ./dist/"
+    "clean": "rm -r ./dist/",
+    "build": "babel src -d lib"
   },
   "keywords": [
     "todo"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ShutongChan/React-todo.git"
+  },
   "author": "Planti",
   "license": "ISC",
   "dependencies": {
     "react": "^15.5.3",
     "react-dom": "^15.5.3",
+    "react-fontawesome": "^1.5.0",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
