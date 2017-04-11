@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import FontAwesome from 'react-fontawesome'
 
+var glist = ["Learn React",
+			"Write a ToDo List",
+			"Debugger",
+			"Keep Learning & Moving"];
 var ToDo = React.createClass({
 	//父组件state存储数据，react的思想是建议将数据存储放在state中，通过props传给子组件
 	getInitialState:function() {
@@ -10,7 +14,8 @@ var ToDo = React.createClass({
 			todolist:["Learn React",
 			"Write a ToDo List",
 			"Debugger",
-			"Keep learning & waiting"]
+			"Keep Learning & Moving"],
+			serachtext:""
 		};	
 	},
 	handleChange:function(rows){
@@ -20,15 +25,55 @@ var ToDo = React.createClass({
 		});
 	},
 	render:function(){
+
+		// var state = this.state;
+		// var todoItems = state.todolist.filter(function(todo){
+		// 	return todo.toLowerCase().indexOf(state.searchtext.toLowerCase()) > -1;
+		// }).map(function(todo){
+
+		// });
+
+
 		return(
 			//添加子组件
 			<div className="toDoContainer">
-
+			<SearchBox ss={this.state} search={this.handleChange} />
+			//todo 将todolist的数据传入到组件，用于组件展示数据
 				<TypeNew todo={this.state.todolist} add={this.handleChange} />
 				<ListToDo todo={this.state.todolist} change={this.handleChange} />
 			</div>
 		)
 	}
+});
+
+var SearchBox = React.createClass({
+	  handleChange:function(e){
+	  	//var rows = this.props.ss.todolist;
+	  	var before = glist;
+	  	//var _self = this;
+	  	var text = e.target.value.trim();
+	  	if (text != '') {
+	  		var todoItems = before.filter(function(item){
+	  			return item.toLowerCase().indexOf(text.toLowerCase()) == 0;
+	  		});
+	  		
+	  		this.props.search(todoItems);
+	  	}
+	  	else{
+	 
+	  		this.props.search(before);
+
+	  	}
+	  	
+
+	  },
+	  render: function() {
+	    return (
+	      <div className="searchBox">
+	        <input type="text" className="form-control searchInput" ref="inputserach" onChange={this.handleChange}  placeholder="typing keywords to search"/>
+	      </div>
+	    );
+	  }
 });
 
 //输入框组件用于新增数据
@@ -48,6 +93,7 @@ var ToDo = React.createClass({
 			rows.push(newthing);
 			//回调改变state
 			this.props.add(rows);
+			glist = rows;
 			//清空输入框
 			inputDom.value = '';
 		},
@@ -87,6 +133,7 @@ var ToDo = React.createClass({
 			rows.splice(index,1);
 			//回调给父组件改变state
 			this.props.change(rows);
+			glist = rows;
 			this.setState({
 				changenum:-1
 			});
@@ -121,6 +168,7 @@ var ToDo = React.createClass({
 			rows[index] = newthing;
 			//回调
 			this.props.change(rows);
+			glist = rows;
 			//改变当前state回到展示状态
 			this.setState({
 				changenum:-1
@@ -146,8 +194,9 @@ var ToDo = React.createClass({
 								return(
 									<li key={i}>
 										<span>{item}</span>
-										<img src="public/images/edit.png" onClick={this.handleChange} data-index={i} />
 										<img src="public/images/delete.png" onClick={this.handleDel} data-index={i} />
+										<img src="public/images/edit.png" onClick={this.handleChange} data-index={i} />
+										
 									
 										
 									</li>
@@ -160,5 +209,8 @@ var ToDo = React.createClass({
 			);
 		}
 	});
+
+
+
 export default ToDo;
 //React.render(<ToDo />, document.body);

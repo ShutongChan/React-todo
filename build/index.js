@@ -10827,6 +10827,7 @@ var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var glist = ["Learn React", "Write a ToDo List", "Debugger", "Keep Learning & Moving"];
 var ToDo = _react2.default.createClass({
 	displayName: 'ToDo',
 
@@ -10834,7 +10835,8 @@ var ToDo = _react2.default.createClass({
 	getInitialState: function getInitialState() {
 		return {
 			//state用来控制todolist
-			todolist: ["Learn React", "Write a ToDo List", "Debugger", "Keep learning & waiting"]
+			todolist: ["Learn React", "Write a ToDo List", "Debugger", "Keep Learning & Moving"],
+			serachtext: ""
 		};
 	},
 	handleChange: function handleChange(rows) {
@@ -10844,14 +10846,53 @@ var ToDo = _react2.default.createClass({
 		});
 	},
 	render: function render() {
+
+		// var state = this.state;
+		// var todoItems = state.todolist.filter(function(todo){
+		// 	return todo.toLowerCase().indexOf(state.searchtext.toLowerCase()) > -1;
+		// }).map(function(todo){
+
+		// });
+
+
 		return (
 			//添加子组件
 			_react2.default.createElement(
 				'div',
 				{ className: 'toDoContainer' },
+				_react2.default.createElement(SearchBox, { ss: this.state, search: this.handleChange }),
+				'//todo \u5C06todolist\u7684\u6570\u636E\u4F20\u5165\u5230\u7EC4\u4EF6\uFF0C\u7528\u4E8E\u7EC4\u4EF6\u5C55\u793A\u6570\u636E',
 				_react2.default.createElement(TypeNew, { todo: this.state.todolist, add: this.handleChange }),
 				_react2.default.createElement(ListToDo, { todo: this.state.todolist, change: this.handleChange })
 			)
+		);
+	}
+});
+
+var SearchBox = _react2.default.createClass({
+	displayName: 'SearchBox',
+
+	handleChange: function handleChange(e) {
+		//var rows = this.props.ss.todolist;
+		var before = glist;
+		//var _self = this;
+		var text = e.target.value.trim();
+		if (text != '') {
+			var todoItems = before.filter(function (item) {
+				return item.toLowerCase().indexOf(text.toLowerCase()) == 0;
+			});
+
+			this.props.search(todoItems);
+		} else {
+
+			this.props.search(before);
+		}
+	},
+	render: function render() {
+		return _react2.default.createElement(
+			'div',
+			{ className: 'searchBox' },
+			_react2.default.createElement('input', { type: 'text', className: 'form-control searchInput', ref: 'inputserach', onChange: this.handleChange, placeholder: 'typing keywords to search' })
 		);
 	}
 });
@@ -10875,6 +10916,7 @@ var TypeNew = _react2.default.createClass({
 		rows.push(newthing);
 		//回调改变state
 		this.props.add(rows);
+		glist = rows;
 		//清空输入框
 		inputDom.value = '';
 	},
@@ -10924,6 +10966,7 @@ var ListToDo = _react2.default.createClass({
 		rows.splice(index, 1);
 		//回调给父组件改变state
 		this.props.change(rows);
+		glist = rows;
 		this.setState({
 			changenum: -1
 		});
@@ -10956,6 +10999,7 @@ var ListToDo = _react2.default.createClass({
 		rows[index] = newthing;
 		//回调
 		this.props.change(rows);
+		glist = rows;
 		//改变当前state回到展示状态
 		this.setState({
 			changenum: -1
@@ -10985,14 +11029,15 @@ var ListToDo = _react2.default.createClass({
 							null,
 							item
 						),
-						_react2.default.createElement('img', { src: 'public/images/edit.png', onClick: this.handleChange, 'data-index': i }),
-						_react2.default.createElement('img', { src: 'public/images/delete.png', onClick: this.handleDel, 'data-index': i })
+						_react2.default.createElement('img', { src: 'public/images/delete.png', onClick: this.handleDel, 'data-index': i }),
+						_react2.default.createElement('img', { src: 'public/images/edit.png', onClick: this.handleChange, 'data-index': i })
 					);
 				}
 			}.bind(this))
 		);
 	}
 });
+
 exports.default = ToDo;
 //React.render(<ToDo />, document.body);
 
@@ -12934,7 +12979,7 @@ exports = module.exports = __webpack_require__(91)(undefined);
 
 
 // module
-exports.push([module.i, "html,body,div,h1,h2,h3,h4,h5,h6,input,form,{\t\r\n\tmargin:0;\r\n\tpadding:0;\r\n\toutline: 0;\r\n}\r\nbody{\r\n\tfont-size: 62.5%;\r\n}\r\na{\r\n\toutline: 0;\r\n\ttext-decoration: none;\r\n}\r\nul{\r\n\tmargin: 0px;\r\n\tpadding:0;\r\n}\r\nli{\r\n\tlist-style: none;\r\n}\r\n\r\n.banner{\r\n\twidth: 100%;\r\n\tbackground-color: #222222;\r\n\ttext-align: center;\r\n\tcolor: #ffffff;\r\n\tpadding: 25px;\r\n\tposition: relative;\r\n\r\n}\r\n.banner h1{\r\n\tfont-size: 3.6rem;\r\n\tmargin-top: 0;\r\n}\r\n.banner h1 > span{\r\n\tcolor: #61dafb;\r\n}\r\n.banner h3{\r\n\tfont-size: 2.4rem;\r\n}\r\n.banner > img{\r\n\twidth: 40px;\r\n\theight: 40px;\r\n\tposition: absolute;\r\n\ttop: 50%;\r\n\tleft: 20px;\r\n\t\r\n\tmargin-top: -20px;\r\n}\r\n.toDoContainer{\r\n\tmargin:50px auto 50px auto;\r\n\tborder:1px solid #b5b5b5;\r\n\tborder-radius: 5px;\r\n\tpadding:20px;\r\n\tmax-width:800px;\r\n\tbackground-color: #2d2d2d; \r\n\tbox-shadow: 0 0 5px 0 rgba(0,0,0,0.5);\r\n}\r\n#todolist li{\r\n\tmargin-top: 15px;\r\n\tborder:1px solid #ebe8e8;\r\n\tborder-radius: 5px;\r\n\tpadding-bottom: 6px;\r\n\tfont-size: 1.6rem;\r\n\tbackground-color: #2d2d2d;\r\n\tcolor: #ebe8e8;\r\n\tpadding: 10px;\r\n\tposition: relative;\r\n\tvertical-align: middle;\r\n}\r\n#todolist li > img{\r\n\twidth: 2rem;\r\n\tfloat: right;\r\n\tright: 10px;\r\n\tmargin-right: 10px;\r\n\tvertical-align: middle;\r\n\tcursor: pointer;\r\n}\r\n#todolist li > input{\r\n\toutline:none;\r\n\tborder: none;\r\n\tbackground-color: #2d2d2d;\r\n\r\n}\r\n#todolist li.editActive{\r\n\tborder:1px solid #61dafb;\r\n}", ""]);
+exports.push([module.i, "html,body,div,h1,h2,h3,h4,h5,h6,input,form,{\t\r\n\tmargin:0;\r\n\tpadding:0;\r\n\toutline: 0;\r\n}\r\nbody{\r\n\tfont-size: 62.5%;\r\n}\r\na{\r\n\toutline: 0;\r\n\ttext-decoration: none;\r\n}\r\nul{\r\n\tmargin: 0px;\r\n\tpadding:0;\r\n}\r\nli{\r\n\tlist-style: none;\r\n}\r\n\r\n.banner{\r\n\twidth: 100%;\r\n\tbackground-color: #222222;\r\n\ttext-align: center;\r\n\tcolor: #ffffff;\r\n\tpadding: 25px;\r\n\tposition: relative;\r\n\r\n}\r\n.banner h1{\r\n\tfont-size: 3.6rem;\r\n\tmargin-top: 0;\r\n}\r\n.banner h1 > span{\r\n\tcolor: #61dafb;\r\n}\r\n.banner h3{\r\n\tfont-size: 2.4rem;\r\n}\r\n.banner > img{\r\n\twidth: 40px;\r\n\theight: 40px;\r\n\tposition: absolute;\r\n\ttop: 50%;\r\n\tleft: 20px;\r\n\t\r\n\tmargin-top: -20px;\r\n}\r\n.toDoContainer{\r\n\tmargin:50px auto 50px auto;\r\n\tborder:1px solid #b5b5b5;\r\n\tborder-radius: 5px;\r\n\tpadding:20px;\r\n\tmax-width:800px;\r\n\tbackground-color: #2d2d2d; \r\n\tbox-shadow: 0 0 5px 0 rgba(0,0,0,0.5);\r\n}\r\n#todolist li{\r\n\tmargin-top: 15px;\r\n\tborder:1px solid #ebe8e8;\r\n\tborder-radius: 5px;\r\n\tpadding-bottom: 6px;\r\n\tfont-size: 1.6rem;\r\n\tbackground-color: #2d2d2d;\r\n\tcolor: #ebe8e8;\r\n\tpadding: 10px;\r\n\tposition: relative;\r\n\tvertical-align: middle;\r\n}\r\n#todolist li > img{\r\n\twidth: 2rem;\r\n\tfloat: right;\r\n\tright: 10px;\r\n\tmargin-right: 10px;\r\n\tvertical-align: middle;\r\n\tcursor: pointer;\r\n}\r\n#todolist li > input{\r\n\toutline:none;\r\n\tborder: none;\r\n\tbackground-color: #2d2d2d;\r\n\r\n}\r\n#todolist li.editActive{\r\n\tborder:1px solid #61dafb;\r\n}\r\n.searchBox .searchInput{\r\n\tbackground-color:#2d2d2d;\r\n\tcolor:#ebe8e8;\r\n\tborder:1px solid #61dafb;\r\n}", ""]);
 
 // exports
 
