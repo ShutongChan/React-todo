@@ -24,6 +24,7 @@ li{
 	text-align: center;
 	color: #ffffff;
 	padding: 25px;
+	position: relative;
 
 }
 .banner h1{
@@ -38,17 +39,21 @@ li{
 }
 .banner > img{
 	width: 40px;
-	float: left;
-	top: 50px;
-	left: 100px;
+	height: 40px;
+	position: absolute;
+	top: 50%;
+	left: 20px;
+	
+	margin-top: -20px;
 }
 .toDoContainer{
-	margin:50px auto auto;
+	margin:50px auto 50px auto;
 	border:1px solid #b5b5b5;
 	border-radius: 5px;
 	padding:20px;
 	max-width:800px;
 	background-color: #2d2d2d; 
+	box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
 }
 #todolist li{
 	margin-top: 15px;
@@ -68,7 +73,14 @@ li{
 	right: 10px;
 	margin-right: 10px;
 	vertical-align: middle;
+	cursor: pointer;
 }
 #todolist li > input{
 	outline:none;
+	border: none;
+	background-color: #2d2d2d;
+
+}
+#todolist li.editActive{
+	border:1px solid #61dafb;
 }
