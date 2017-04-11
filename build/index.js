@@ -10986,20 +10986,19 @@ var TypeNew = _react2.default.createClass({
 	},
 	handleKeyDown: function handleKeyDown(e) {
 		//alert(e.keyCode);
-		e.preventDefault();
-		if (e.keyCode == 13) {
-			this.handleAdd();
-			return false;
-		}
+		if (e.keyCode == 13) this.handleAdd();
 	},
-
+	handleSubmit: function handleSubmit(e) {
+		e.preventDefault();
+		return false;
+	},
 	render: function render() {
 		return _react2.default.createElement(
 			'div',
 			{ className: 'row' },
 			_react2.default.createElement(
 				'form',
-				{ onSubmit: this.handleKeyDown },
+				{ onSubmit: this.handleSubmit },
 				_react2.default.createElement(
 					'div',
 					{ className: 'col-lg-12' },

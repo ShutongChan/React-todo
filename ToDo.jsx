@@ -90,17 +90,18 @@ var SearchBox = React.createClass({
 		},
 		handleKeyDown:function(e){
 			 //alert(e.keyCode);
-			 e.preventDefault();
-			 if(e.keyCode == 13) 
-			 { 
-					this.handleAdd(); 
-					return false;
-			}						
-		},		
+			 if(e.keyCode == 13)  
+				this.handleAdd(); 
+			
+		},
+		handleSubmit:function(e){
+			e.preventDefault(); 
+			return false;
+		},
 		render:function(){
 			return(
 				<div className="row">
-					<form onSubmit={this.handleKeyDown}>
+					<form onSubmit={this.handleSubmit}>
 						<div className="col-lg-12">
 							<div className="input-group">
 								<input type="text" className="form-control"  ref="inputnew" placeholder="typing a newthing to do" autoComplete="off" onKeyDown={this.handleKeyDown} />
