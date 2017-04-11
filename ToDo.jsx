@@ -2,33 +2,81 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import FontAwesome from 'react-fontawesome'
 
+var glist = ["Learn React",
+			"Write a ToDo List",
+			"Debugger",
+			"Keep Learning & Moving"];
 var ToDo = React.createClass({
 	//父组件state存储数据，react的思想是建议将数据存储放在state中，通过props传给子组件
 	getInitialState:function() {
 		return{
 			//state用来控制todolist
-			todolist:["Learn React",
-			"Write a ToDo List",
-			"Debugger",
-			"Keep learning & waiting"]
-		};	
+			todolist:[],
+			serachtext:""
+		};
+			
+	},
+	componentDidMount:function() {
+		
+		var init = localStorage.getItem("mylist");
+		if(init == null){
+			localStorage.setItem("mylist", glist);
+		}		
+		var initlist = localStorage.getItem("mylist").split(",");
+		this.setState({
+			todolist:initlist,
+			serachtext:""
+
+		}); 
 	},
 	handleChange:function(rows){
 		//当发生增删改查时改变state重新渲染
 		this.setState({
 			todolist:rows
 		});
+		localStorage.setItem("mylist", glist);
 	},
 	render:function(){
 		return(
 			//添加子组件
 			<div className="toDoContainer">
-
+			<SearchBox ss={this.state} search={this.handleChange} />
+			//todo 将todolist的数据传入到组件，用于组件展示数据
 				<TypeNew todo={this.state.todolist} add={this.handleChange} />
 				<ListToDo todo={this.state.todolist} change={this.handleChange} />
 			</div>
 		)
 	}
+});
+
+var SearchBox = React.createClass({
+	  handleChange:function(e){
+	  	//var rows = this.props.ss.todolist;
+	  	var before = glist;
+	  	//var _self = this;
+	  	var text = e.target.value.trim();
+	  	if (text != '') {
+	  		var todoItems = before.filter(function(item){
+	  			return item.toLowerCase().indexOf(text.toLowerCase()) == 0;
+	  		});
+	  		
+	  		this.props.search(todoItems);
+	  	}
+	  	else{
+	 
+	  		this.props.search(before);
+
+	  	}
+	  	
+
+	  },
+	  render: function() {
+	    return (
+	      <div className="searchBox">
+	        <input type="text" className="form-control searchInput" ref="inputserach" onChange={this.handleChange}  placeholder="typing keywords to search"/>
+	      </div>
+	    );
+	  }
 });
 
 //输入框组件用于新增数据
@@ -46,18 +94,30 @@ var ToDo = React.createClass({
 			}
 			//向数组内添加新数据
 			rows.push(newthing);
+			glist = rows;
 			//回调改变state
 			this.props.add(rows);
+			
 			//清空输入框
 			inputDom.value = '';
+		},
+		handleKeyDown:function(e){
+			 //alert(e.keyCode);
+			 if(e.keyCode == 13)  
+				this.handleAdd(); 
+			
+		},
+		handleSubmit:function(e){
+			e.preventDefault(); 
+			return false;
 		},
 		render:function(){
 			return(
 				<div className="row">
-					<form>
+					<form onSubmit={this.handleSubmit}>
 						<div className="col-lg-12">
 							<div className="input-group">
-								<input type="text" className="form-control" ref="inputnew" placeholder="typing a newthing to do" autoComplete="off" />
+								<input type="text" className="form-control"  ref="inputnew" placeholder="typing a newthing to do" autoComplete="off" onKeyDown={this.handleKeyDown} />
 								<span className="input-group-btn">
 									<input type="button" className="btn btn-default" value="提交" onClick={this.handleAdd} />																	
 								</span>
@@ -67,6 +127,7 @@ var ToDo = React.createClass({
 				</div>
 				);
 		}
+
 	});
 
 //用于展示数据、删除、修改数据
@@ -85,8 +146,10 @@ var ToDo = React.createClass({
 			var index = event.target.getAttribute('data-index');
 			//根据index删除数据
 			rows.splice(index,1);
+			glist = rows;
 			//回调给父组件改变state
 			this.props.change(rows);
+			
 			this.setState({
 				changenum:-1
 			});
@@ -119,8 +182,10 @@ var ToDo = React.createClass({
 			var index = this.state.changenum;
 			//rows[index]改变为更新的数据
 			rows[index] = newthing;
+			glist = rows;
 			//回调
 			this.props.change(rows);
+			
 			//改变当前state回到展示状态
 			this.setState({
 				changenum:-1
@@ -146,8 +211,9 @@ var ToDo = React.createClass({
 								return(
 									<li key={i}>
 										<span>{item}</span>
-										<img src="public/images/edit.png" onClick={this.handleChange} data-index={i} />
 										<img src="public/images/delete.png" onClick={this.handleDel} data-index={i} />
+										<img src="public/images/edit.png" onClick={this.handleChange} data-index={i} />
+										
 									
 										
 									</li>
@@ -160,5 +226,8 @@ var ToDo = React.createClass({
 			);
 		}
 	});
+
+
+
 export default ToDo;
 //React.render(<ToDo />, document.body);

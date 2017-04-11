@@ -2,9 +2,27 @@ html,body,div,h1,h2,h3,h4,h5,h6,input,form,{
 	margin:0;
 	padding:0;
 	outline: 0;
+
 }
 body{
-	font-size: 62.5%;
+	font-size: 62.5%;	
+}
+html {
+  overflow-y: scroll;
+}
+
+:root {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+:root body {
+  position: absolute;
+}
+
+body {
+  width: 100vw;
+  overflow: hidden;
 }
 a{
 	outline: 0;
@@ -20,6 +38,7 @@ li{
 
 .banner{
 	width: 100%;
+	max-width: 1920;
 	background-color: #222222;
 	text-align: center;
 	color: #ffffff;
@@ -66,6 +85,15 @@ li{
 	padding: 10px;
 	position: relative;
 	vertical-align: middle;
+	
+}
+#todolist li > span{
+	display: inline-block;
+	width: 80%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: middle;
 }
 #todolist li > img{
 	width: 2rem;
@@ -79,8 +107,15 @@ li{
 	outline:none;
 	border: none;
 	background-color: #2d2d2d;
+	width: 80%;
+	
 
 }
 #todolist li.editActive{
+	border:1px solid #61dafb;
+}
+.searchBox .searchInput{
+	background-color:#2d2d2d;
+	color:#ebe8e8;
 	border:1px solid #61dafb;
 }
