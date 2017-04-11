@@ -11,18 +11,30 @@ var ToDo = React.createClass({
 	getInitialState:function() {
 		return{
 			//state用来控制todolist
-			todolist:["Learn React",
-			"Write a ToDo List",
-			"Debugger",
-			"Keep Learning & Moving"],
+			todolist:[],
 			serachtext:""
-		};	
+		};
+			
+	},
+	componentDidMount:function() {
+		
+		var init = localStorage.getItem("mylist");
+		if(init == null){
+			localStorage.setItem("mylist", glist);
+		}		
+		var initlist = localStorage.getItem("mylist").split(",");
+		this.setState({
+			todolist:initlist,
+			serachtext:""
+
+		}); 
 	},
 	handleChange:function(rows){
 		//当发生增删改查时改变state重新渲染
 		this.setState({
 			todolist:rows
 		});
+		localStorage.setItem("mylist", glist);
 	},
 	render:function(){
 		return(
@@ -82,9 +94,10 @@ var SearchBox = React.createClass({
 			}
 			//向数组内添加新数据
 			rows.push(newthing);
+			glist = rows;
 			//回调改变state
 			this.props.add(rows);
-			glist = rows;
+			
 			//清空输入框
 			inputDom.value = '';
 		},
@@ -133,9 +146,10 @@ var SearchBox = React.createClass({
 			var index = event.target.getAttribute('data-index');
 			//根据index删除数据
 			rows.splice(index,1);
+			glist = rows;
 			//回调给父组件改变state
 			this.props.change(rows);
-			glist = rows;
+			
 			this.setState({
 				changenum:-1
 			});
@@ -168,9 +182,10 @@ var SearchBox = React.createClass({
 			var index = this.state.changenum;
 			//rows[index]改变为更新的数据
 			rows[index] = newthing;
+			glist = rows;
 			//回调
 			this.props.change(rows);
-			glist = rows;
+			
 			//改变当前state回到展示状态
 			this.setState({
 				changenum:-1

@@ -66,6 +66,15 @@ li{
 	padding: 10px;
 	position: relative;
 	vertical-align: middle;
+	
+}
+#todolist li > span{
+	display: inline-block;
+	width: 80%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: middle;
 }
 #todolist li > img{
 	width: 2rem;
@@ -79,6 +88,8 @@ li{
 	outline:none;
 	border: none;
 	background-color: #2d2d2d;
+	width: 80%;
+	
 
 }
 #todolist li.editActive{

@@ -10908,15 +10908,29 @@ var ToDo = _react2.default.createClass({
 	getInitialState: function getInitialState() {
 		return {
 			//state用来控制todolist
-			todolist: ["Learn React", "Write a ToDo List", "Debugger", "Keep Learning & Moving"],
+			todolist: [],
 			serachtext: ""
 		};
+	},
+	componentDidMount: function componentDidMount() {
+
+		var init = localStorage.getItem("mylist");
+		if (init == null) {
+			localStorage.setItem("mylist", glist);
+		}
+		var initlist = localStorage.getItem("mylist").split(",");
+		this.setState({
+			todolist: initlist,
+			serachtext: ""
+
+		});
 	},
 	handleChange: function handleChange(rows) {
 		//当发生增删改查时改变state重新渲染
 		this.setState({
 			todolist: rows
 		});
+		localStorage.setItem("mylist", glist);
 	},
 	render: function render() {
 		return (
@@ -10978,9 +10992,10 @@ var TypeNew = _react2.default.createClass({
 		}
 		//向数组内添加新数据
 		rows.push(newthing);
+		glist = rows;
 		//回调改变state
 		this.props.add(rows);
-		glist = rows;
+
 		//清空输入框
 		inputDom.value = '';
 	},
@@ -11037,9 +11052,10 @@ var ListToDo = _react2.default.createClass({
 		var index = event.target.getAttribute('data-index');
 		//根据index删除数据
 		rows.splice(index, 1);
+		glist = rows;
 		//回调给父组件改变state
 		this.props.change(rows);
-		glist = rows;
+
 		this.setState({
 			changenum: -1
 		});
@@ -11070,9 +11086,10 @@ var ListToDo = _react2.default.createClass({
 		var index = this.state.changenum;
 		//rows[index]改变为更新的数据
 		rows[index] = newthing;
+		glist = rows;
 		//回调
 		this.props.change(rows);
-		glist = rows;
+
 		//改变当前state回到展示状态
 		this.setState({
 			changenum: -1
@@ -13052,7 +13069,7 @@ exports = module.exports = __webpack_require__(92)(undefined);
 
 
 // module
-exports.push([module.i, "html,body,div,h1,h2,h3,h4,h5,h6,input,form,{\t\r\n\tmargin:0;\r\n\tpadding:0;\r\n\toutline: 0;\r\n}\r\nbody{\r\n\tfont-size: 62.5%;\r\n}\r\na{\r\n\toutline: 0;\r\n\ttext-decoration: none;\r\n}\r\nul{\r\n\tmargin: 0px;\r\n\tpadding:0;\r\n}\r\nli{\r\n\tlist-style: none;\r\n}\r\n\r\n.banner{\r\n\twidth: 100%;\r\n\tbackground-color: #222222;\r\n\ttext-align: center;\r\n\tcolor: #ffffff;\r\n\tpadding: 25px;\r\n\tposition: relative;\r\n\r\n}\r\n.banner h1{\r\n\tfont-size: 3.6rem;\r\n\tmargin-top: 0;\r\n}\r\n.banner h1 > span{\r\n\tcolor: #61dafb;\r\n}\r\n.banner h3{\r\n\tfont-size: 2.4rem;\r\n}\r\n.banner > img{\r\n\twidth: 40px;\r\n\theight: 40px;\r\n\tposition: absolute;\r\n\ttop: 50%;\r\n\tleft: 20px;\r\n\t\r\n\tmargin-top: -20px;\r\n}\r\n.toDoContainer{\r\n\tmargin:50px auto 50px auto;\r\n\tborder:1px solid #b5b5b5;\r\n\tborder-radius: 5px;\r\n\tpadding:20px;\r\n\tmax-width:800px;\r\n\tbackground-color: #2d2d2d; \r\n\tbox-shadow: 0 0 5px 0 rgba(0,0,0,0.5);\r\n}\r\n#todolist li{\r\n\tmargin-top: 15px;\r\n\tborder:1px solid #ebe8e8;\r\n\tborder-radius: 5px;\r\n\tpadding-bottom: 6px;\r\n\tfont-size: 1.6rem;\r\n\tbackground-color: #2d2d2d;\r\n\tcolor: #ebe8e8;\r\n\tpadding: 10px;\r\n\tposition: relative;\r\n\tvertical-align: middle;\r\n}\r\n#todolist li > img{\r\n\twidth: 2rem;\r\n\tfloat: right;\r\n\tright: 10px;\r\n\tmargin-right: 10px;\r\n\tvertical-align: middle;\r\n\tcursor: pointer;\r\n}\r\n#todolist li > input{\r\n\toutline:none;\r\n\tborder: none;\r\n\tbackground-color: #2d2d2d;\r\n\r\n}\r\n#todolist li.editActive{\r\n\tborder:1px solid #61dafb;\r\n}\r\n.searchBox .searchInput{\r\n\tbackground-color:#2d2d2d;\r\n\tcolor:#ebe8e8;\r\n\tborder:1px solid #61dafb;\r\n}", ""]);
+exports.push([module.i, "html,body,div,h1,h2,h3,h4,h5,h6,input,form,{\t\r\n\tmargin:0;\r\n\tpadding:0;\r\n\toutline: 0;\r\n}\r\nbody{\r\n\tfont-size: 62.5%;\r\n}\r\na{\r\n\toutline: 0;\r\n\ttext-decoration: none;\r\n}\r\nul{\r\n\tmargin: 0px;\r\n\tpadding:0;\r\n}\r\nli{\r\n\tlist-style: none;\r\n}\r\n\r\n.banner{\r\n\twidth: 100%;\r\n\tbackground-color: #222222;\r\n\ttext-align: center;\r\n\tcolor: #ffffff;\r\n\tpadding: 25px;\r\n\tposition: relative;\r\n\r\n}\r\n.banner h1{\r\n\tfont-size: 3.6rem;\r\n\tmargin-top: 0;\r\n}\r\n.banner h1 > span{\r\n\tcolor: #61dafb;\r\n}\r\n.banner h3{\r\n\tfont-size: 2.4rem;\r\n}\r\n.banner > img{\r\n\twidth: 40px;\r\n\theight: 40px;\r\n\tposition: absolute;\r\n\ttop: 50%;\r\n\tleft: 20px;\r\n\t\r\n\tmargin-top: -20px;\r\n}\r\n.toDoContainer{\r\n\tmargin:50px auto 50px auto;\r\n\tborder:1px solid #b5b5b5;\r\n\tborder-radius: 5px;\r\n\tpadding:20px;\r\n\tmax-width:800px;\r\n\tbackground-color: #2d2d2d; \r\n\tbox-shadow: 0 0 5px 0 rgba(0,0,0,0.5);\r\n}\r\n#todolist li{\r\n\tmargin-top: 15px;\r\n\tborder:1px solid #ebe8e8;\r\n\tborder-radius: 5px;\r\n\tpadding-bottom: 6px;\r\n\tfont-size: 1.6rem;\r\n\tbackground-color: #2d2d2d;\r\n\tcolor: #ebe8e8;\r\n\tpadding: 10px;\r\n\tposition: relative;\r\n\tvertical-align: middle;\r\n\t\r\n}\r\n#todolist li > span{\r\n\tdisplay: inline-block;\r\n\twidth: 80%;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n\twhite-space: nowrap;\r\n\tvertical-align: middle;\r\n}\r\n#todolist li > img{\r\n\twidth: 2rem;\r\n\tfloat: right;\r\n\tright: 10px;\r\n\tmargin-right: 10px;\r\n\tvertical-align: middle;\r\n\tcursor: pointer;\r\n}\r\n#todolist li > input{\r\n\toutline:none;\r\n\tborder: none;\r\n\tbackground-color: #2d2d2d;\r\n\twidth: 80%;\r\n\t\r\n\r\n}\r\n#todolist li.editActive{\r\n\tborder:1px solid #61dafb;\r\n}\r\n.searchBox .searchInput{\r\n\tbackground-color:#2d2d2d;\r\n\tcolor:#ebe8e8;\r\n\tborder:1px solid #61dafb;\r\n}", ""]);
 
 // exports
 
