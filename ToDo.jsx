@@ -25,15 +25,6 @@ var ToDo = React.createClass({
 		});
 	},
 	render:function(){
-
-		// var state = this.state;
-		// var todoItems = state.todolist.filter(function(todo){
-		// 	return todo.toLowerCase().indexOf(state.searchtext.toLowerCase()) > -1;
-		// }).map(function(todo){
-
-		// });
-
-
 		return(
 			//添加子组件
 			<div className="toDoContainer">
@@ -97,13 +88,22 @@ var SearchBox = React.createClass({
 			//清空输入框
 			inputDom.value = '';
 		},
+		handleKeyDown:function(e){
+			 //alert(e.keyCode);
+			 e.preventDefault();
+			 if(e.keyCode == 13) 
+			 { 
+					this.handleAdd(); 
+					return false;
+			}						
+		},		
 		render:function(){
 			return(
 				<div className="row">
-					<form>
+					<form onSubmit={this.handleKeyDown}>
 						<div className="col-lg-12">
 							<div className="input-group">
-								<input type="text" className="form-control" ref="inputnew" placeholder="typing a newthing to do" autoComplete="off" />
+								<input type="text" className="form-control"  ref="inputnew" placeholder="typing a newthing to do" autoComplete="off" onKeyDown={this.handleKeyDown} />
 								<span className="input-group-btn">
 									<input type="button" className="btn btn-default" value="提交" onClick={this.handleAdd} />																	
 								</span>
@@ -113,6 +113,7 @@ var SearchBox = React.createClass({
 				</div>
 				);
 		}
+
 	});
 
 //用于展示数据、删除、修改数据
