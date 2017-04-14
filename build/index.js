@@ -10752,6 +10752,7 @@ var Chart = _react2.default.createClass({
 		var numTotal = 0;
 		var voteNum = [];
 		var voteKey = [];
+		var num = 0;
 		rows.map(function (item, i) {
 			for (var key in item) {
 				numTotal += parseInt(item[key]);
@@ -10759,7 +10760,8 @@ var Chart = _react2.default.createClass({
 		});
 		for (var i = 0; i < rows.length; i++) {
 			for (var key in rows[i]) {
-				voteNum.push(parseInt(rows[i][key]) * 100 / numTotal);
+				num = Math.floor(parseFloat(rows[i][key]) * 10000 / numTotal) / 100;
+				voteNum.push(num);
 				voteKey.push(key);
 			}
 		};
