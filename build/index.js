@@ -10434,6 +10434,7 @@ var _reactHighcharts2 = _interopRequireDefault(_reactHighcharts);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var glist = [{ "item1": 3 }, { "item2": 4 }, { "item3": 5 }, { "item4": 6 }];
+var chartDiv = '';
 var ToDo = _react2.default.createClass({
 	displayName: 'ToDo',
 
@@ -10505,6 +10506,7 @@ var SearchBox = _react2.default.createClass({
 
 			this.props.search(before);
 		}
+		chartDiv.style.display = 'none';
 	},
 	render: function render() {
 		return _react2.default.createElement(
@@ -10543,6 +10545,8 @@ var TypeNew = _react2.default.createClass({
 		//清空输入框
 		inputDom.value = '';
 		inputNumDom.value = '';
+		inputDom.focus();
+		chartDiv.style.display = 'none';
 	},
 	handleKeyDown: function handleKeyDown(e) {
 		//alert(e.keyCode);
@@ -10566,7 +10570,7 @@ var TypeNew = _react2.default.createClass({
 						'div',
 						{ className: 'input-div' },
 						_react2.default.createElement('input', { type: 'text', className: 'input-control', ref: 'inputnew', placeholder: '\u9879\u76EE\u540D\u79F0', autoComplete: 'off', onKeyDown: this.handleKeyDown }),
-						_react2.default.createElement('input', { type: 'number', className: 'input-control', onKeyDown: this.handleKeyDown, ref: 'inputnewnum', placeholder: '\u6295\u7968\u6570' }),
+						_react2.default.createElement('input', { type: 'number', className: 'input-control', onKeyDown: this.handleKeyDown, ref: 'inputnewnum', autoComplete: 'off', placeholder: '\u6295\u7968\u6570' }),
 						_react2.default.createElement('input', { type: 'button', className: 'btn btn-default sub_btn', value: '\u63D0\u4EA4', onClick: this.handleAdd })
 					)
 				)
@@ -10602,6 +10606,7 @@ var ListToDo = _react2.default.createClass({
 		this.setState({
 			changenum: -1
 		});
+		chartDiv.style.display = 'none';
 	},
 	//点击修改按钮后改变state
 	handleChange: function handleChange(e) {
@@ -10617,6 +10622,7 @@ var ListToDo = _react2.default.createClass({
 			changevalue: votekey,
 			changevotenum: votenum
 		});
+		chartDiv.style.display = 'none';
 	},
 	handleVoteKey: function handleVoteKey(e) {
 		this.setState({
@@ -10765,6 +10771,7 @@ var Chart = _react2.default.createClass({
 			config: config
 		});
 		_reactDom2.default.findDOMNode(this.refs.HighCharts).style.display = 'block';
+		chartDiv = _reactDom2.default.findDOMNode(this.refs.HighCharts);
 	},
 	render: function render() {
 		return _react2.default.createElement(

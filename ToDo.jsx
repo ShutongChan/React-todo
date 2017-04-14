@@ -8,6 +8,7 @@ var glist = [{"item1":3},
 			{"item2":4},
 			{"item3":5},
 			{"item4":6}];
+var chartDiv = '';
 var ToDo = React.createClass({
 	//父组件state存储数据，react的思想是建议将数据存储放在state中，通过props传给子组件
 	getInitialState:function() {
@@ -37,6 +38,7 @@ var ToDo = React.createClass({
 			todolist:rows
 		});
 		localStorage.setItem("mylist", glist);
+
 	},
 	render:function(){
 		return(
@@ -77,7 +79,7 @@ var SearchBox = React.createClass({
 	  		this.props.search(before);
 
 	  	}
-	  	
+	  	chartDiv.style.display = 'none';
 
 	  },
 	  render: function() {
@@ -115,6 +117,8 @@ var SearchBox = React.createClass({
 			//清空输入框
 			inputDom.value = '';
 			inputNumDom.value = '';
+			inputDom.focus();
+			chartDiv.style.display = 'none';
 		},
 		handleKeyDown:function(e){
 			 //alert(e.keyCode);
@@ -134,7 +138,7 @@ var SearchBox = React.createClass({
 							<div className="input-div">
 								
 								<input type="text" className="input-control"  ref="inputnew" placeholder="项目名称" autoComplete="off" onKeyDown={this.handleKeyDown} />
-								<input type="number" className="input-control" onKeyDown={this.handleKeyDown} ref="inputnewnum" placeholder="投票数" />
+								<input type="number" className="input-control" onKeyDown={this.handleKeyDown} ref="inputnewnum" autoComplete="off" placeholder="投票数" />
 								<input type="button" className="btn btn-default sub_btn" value="提交" onClick={this.handleAdd} />																																
 							</div>
 							
@@ -170,6 +174,7 @@ var SearchBox = React.createClass({
 			this.setState({
 				changenum:-1
 			});
+			chartDiv.style.display = 'none';
 
 		},
 		//点击修改按钮后改变state
@@ -186,6 +191,7 @@ var SearchBox = React.createClass({
 				changevalue:votekey,
 				changevotenum:votenum
 			});
+			chartDiv.style.display = 'none';
 
 		},
 		handleVoteKey:function(e){
@@ -327,6 +333,7 @@ var SearchBox = React.createClass({
 			config:config
 		});
 		ReactDOM.findDOMNode(this.refs.HighCharts).style.display = 'block';
+		chartDiv = ReactDOM.findDOMNode(this.refs.HighCharts);
 
 	},
 	render:function(){
