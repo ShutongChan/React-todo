@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FontAwesome from 'react-fontawesome'
+import FontAwesome from 'react-fontawesome';
+import ReactHighcharts from 'react-highcharts';
+
 
 var glist = [{"item1":3},
 			{"item2":4},
@@ -22,7 +24,7 @@ var ToDo = React.createClass({
 		if(init == null){
 			localStorage.setItem("mylist", glist);
 		}		
-		//var initlist = localStorage.getItem("mylist").split(",");
+		var initlist = localStorage.getItem("mylist").split(",");
 		this.setState({
 			todolist:glist,
 			serachtext:""
@@ -39,63 +41,33 @@ var ToDo = React.createClass({
 	render:function(){
 		return(
 			//添加子组件
-			<div className="toDoContainer">
-			<SearchBox ss={this.state} search={this.handleChange} />
-			//todo 将todolist的数据传入到组件，用于组件展示数据
-				<TypeNew todo={this.state.todolist} add={this.handleChange} />
-				<ListToDo todo={this.state.todolist} change={this.handleChange} />
-				<Chart todo={this.state.todolist} />
+			<div>
+				<div className="toDoContainer">
+				<SearchBox ss={this.state} search={this.handleChange} />
+				//todo 将todolist的数据传入到组件，用于组件展示数据
+					<TypeNew todo={this.state.todolist} add={this.handleChange} />
+					<ListToDo todo={this.state.todolist} change={this.handleChange} />
+					<Chart todo={this.state.todolist} />
+				</div>
+				
 			</div>
 		)
 	}
 });
 
-var Chart = React.createClass({
-	getInitialState() {
-		return{
-			numTotal:0
-		}
-			
-	},
-	createChart:function(){
-		var rows = this.props.todo;
-		var numTotal = 0;
-		var votePer = [];
-		rows.map(function(item,i){
-			for(var key in item){
-				numTotal += parseInt(item[key]); 
-			}
-		});
-		for(var i = 0;i < rows.length;i++){
-			for(var key in rows[i]){
-				votePer.push(parseInt(rows[i][key])/numTotal);
-			}
-		};
-		debugger;
-		this.setState({
-			numTotal:numTotal
-		});
-
-	},
-	render:function(){
-		return(
-			<div>
-				<button onClick={this.createChart}>生成图表</button>
-				<span>{this.state.numTotal}</span>
-				<span></span>
-			</div>
-		)
-	}
-})
 
 var SearchBox = React.createClass({
 	  handleChange:function(e){
 	  	//var rows = this.props.ss.todolist;
 	  	//var _self = this;
+	  	var before = glist;
 	  	var text = e.target.value.trim();
 	  	if (text != '') {
 	  		var todoItems = before.filter(function(item){
-	  			return item.toLowerCase().indexOf(text.toLowerCase()) == 0;
+	  			for(var key in item){
+				return key.toLowerCase().indexOf(text.toLowerCase()) == 0;
+			}
+	  			
 	  		});
 	  		
 	  		this.props.search(todoItems);
@@ -142,6 +114,7 @@ var SearchBox = React.createClass({
 			
 			//清空输入框
 			inputDom.value = '';
+			inputNumDom.value = '';
 		},
 		handleKeyDown:function(e){
 			 //alert(e.keyCode);
@@ -155,16 +128,16 @@ var SearchBox = React.createClass({
 		},
 		render:function(){
 			return(
-				<div className="row">
-					<form onSubmit={this.handleSubmit}>
-						<div className="col-lg-12">
-							<div className="input-group">
-								<input type="text" className="form-control"  ref="inputnew" placeholder="typing a newthing to do" autoComplete="off" onKeyDown={this.handleKeyDown} />
-								<input type="number" ref="inputnewnum" placeholder="投票数" />
-								<span className="input-group-btn">
-									<input type="button" className="btn btn-default" value="提交" onClick={this.handleAdd} />																	
-								</span>
+				<div>
+					<form onSubmit={this.handleSubmit} >
+						<div>
+							<div className="input-div">
+								
+								<input type="text" className="input-control"  ref="inputnew" placeholder="项目名称" autoComplete="off" onKeyDown={this.handleKeyDown} />
+								<input type="number" className="input-control" onKeyDown={this.handleKeyDown} ref="inputnewnum" placeholder="投票数" />
+								<input type="button" className="btn btn-default sub_btn" value="提交" onClick={this.handleAdd} />																																
 							</div>
+							
 						</div>
 					</form>
 				</div>
@@ -261,8 +234,10 @@ var SearchBox = React.createClass({
 							if (this.state.changenum == i) {
 								return(
 									<li key={i} className="editActive" >
-										<input type="text" ref="inputnew" value={this.state.changevalue} autoFocus="autofocus" onChange={this.handleVoteKey} />
-										<input type="num" ref="inputnewnum" value={this.state.changevotenum} onChange={this.handleVoteNum} />
+										<div>
+											<input type="text" ref="inputnew" value={this.state.changevalue} autoFocus="autofocus" onChange={this.handleVoteKey} />
+											<input type="num" ref="inputnewnum" value={this.state.changevotenum} onChange={this.handleVoteNum} />
+										</div>
 										<img src="public/images/done.png" onClick={this.handleSave} />
 									</li>
 									);
@@ -270,8 +245,10 @@ var SearchBox = React.createClass({
 							else{
 								return(
 									<li key={i}>
-										<span>{key}</span>
-										<span>{item[key]}</span>
+										<div>
+											<span>{key}</span>
+											<span>得票数：{item[key]}</span>
+										</div>
 										<img src="public/images/delete.png" onClick={this.handleDel} data-index={i} />
 										<img src="public/images/edit.png" onClick={this.handleChange} data-index={i} />
 										
@@ -288,6 +265,81 @@ var SearchBox = React.createClass({
 		}
 	});
 
+	var Chart = React.createClass({
+	getInitialState() {
+		return{
+			numTotal:0,
+			config:{
+				chart:{
+			  	type: 'column'
+			  },
+			  title:{
+			  	text:'项目投票百分比'
+			  },
+			  xAxis: {
+			    categories: []
+			  },
+			  yAxis: {
+			      min: 0,
+			      max:100,
+			      title: {
+			         text: '投票百分比 (%)'         
+			      }      
+			   },
+			  series: [{
+			    data: []
+			  }],
+			  tooltip:{
+			      valueSuffix: '%'
+			   },
+			   plotOptions: {
+                    column:{
+                        dataLabels:{
+                            enabled:true,
+                        }
+                    }
+      			}
+			}
+		}
+			
+	},
+	createChart:function(){
+		var rows = this.props.todo;
+		var numTotal = 0;
+		var voteNum = [];
+		var voteKey = [];
+		rows.map(function(item,i){
+			for(var key in item){
+				numTotal += parseInt(item[key]); 
+			}
+		});
+		for(var i = 0;i < rows.length;i++){
+			for(var key in rows[i]){
+				voteNum.push((parseInt(rows[i][key]))*100/numTotal);
+				voteKey.push(key);
+			}
+		};
+		var config = this.state.config;
+		config['xAxis']['categories'] = voteKey;
+		config['series'][0]['data'] = voteNum;
+		this.setState({
+			numTotal:numTotal,
+			config:config
+		});
+		ReactDOM.findDOMNode(this.refs.HighCharts).style.display = 'block';
+
+	},
+	render:function(){
+		return(
+			<div>
+				<button className="btn btn-default chart_button" onClick={this.createChart}>确认</button>
+				<div className="HighCharts" ref="HighCharts">
+					<ReactHighcharts config={this.state.config} />
+				</div>
+			</div>
+		)
+	}
+})
 
 
 export default ToDo;
